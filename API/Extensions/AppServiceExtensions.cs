@@ -1,5 +1,11 @@
-﻿using Infrastructure;
+﻿using Application.Core;
+using Application.Features.Products.Queries;
+using Application.Products.Queries;
+using Application.Repository;
+using Infrastructure;
+using Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace API.Extensions
 {
@@ -14,6 +20,13 @@ namespace API.Extensions
             {
                 options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddMediatR(cfg => 
+                cfg.RegisterServicesFromAssembly(Assembly.GetAssembly(typeof(GetProductsQuery))));
+            services.AddAutoMapper(typeof(MappingProfile).Assembly);
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+
 
             return services;
         }

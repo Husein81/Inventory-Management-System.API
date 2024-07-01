@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain
+﻿namespace Domain
 {
     public class Product
     {
@@ -17,25 +11,25 @@ namespace Domain
         public decimal Price { get; set; }
         public string ImageUrl { get; set; }
         public Guid CategoryId { get; set; }
+
         public Category Category { get; set; }
-        public Guid InventoryId { get; set; }
-        public Inventory Inventory { get; set; }
+        public ICollection<Inventory> Inventory { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
+
 
         public void CalculatePrice()
         {
-            decimal PriceBeforeTax = Cost - (Cost * Discount/100);
-            Price = PriceBeforeTax + (PriceBeforeTax * Tax/100);
+            Price = (Cost + Tax) - Discount;
         }
         public void Update(Product product)
         {
-            Name = product.Name ;
+            Name = product.Name;
             Description = product.Description; 
             Cost = product.Cost; 
             Tax = product.Tax;
             Discount = product.Discount;
             ImageUrl = product.ImageUrl;
             CategoryId = product.CategoryId;
-            InventoryId = product.InventoryId;
         }
     }
 }

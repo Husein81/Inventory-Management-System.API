@@ -12,3 +12,9 @@ D:\Projects\Inventory-Management-System\Application\obj\Debug\net8.0\refint\Appl
 D:\Projects\Inventory-Management-System\Application\obj\Debug\net8.0\Application.pdb
 D:\Projects\Inventory-Management-System\Application\obj\Debug\net8.0\Application.genruntimeconfig.cache
 D:\Projects\Inventory-Management-System\Application\obj\Debug\net8.0\ref\Application.dll
+D:\Projects\Inventory-Management-System\Application\obj\Debug\net8.0\Application.sourcelink.json
+D:\Projects\Inventory-Management-System\Application\bin\Debug\net8.0\Domain.dll
+D:\Projects\Inventory-Management-System\Application\bin\Debug\net8.0\Shared.dll
+D:\Projects\Inventory-Management-System\Application\bin\Debug\net8.0\Domain.pdb
+D:\Projects\Inventory-Management-System\Application\bin\Debug\net8.0\Shared.pdb
+D:\Projects\Inventory-Management-System\Application\obj\Debug\net8.0\Applicat.44B5EDA2.Up2Date

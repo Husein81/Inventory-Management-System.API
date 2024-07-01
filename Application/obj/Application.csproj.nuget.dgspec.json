@@ -66,6 +66,10 @@
               "target": "Package",
               "version": "[11.3.0, )"
             },
+            "Mapster": {
+              "target": "Package",
+              "version": "[7.4.0, )"
+            },
             "MediatR": {
               "target": "Package",
               "version": "[12.3.0, )"
@@ -166,6 +170,10 @@
               "target": "Package",
               "version": "[11.3.0, )"
             },
+            "Mapster": {
+              "target": "Package",
+              "version": "[7.4.0, )"
+            },
             "MediatR": {
               "target": "Package",
               "version": "[12.3.0, )"
@@ -265,6 +273,10 @@
             "FluentValidation.AspNetCore": {
               "target": "Package",
               "version": "[11.3.0, )"
+            },
+            "Mapster": {
+              "target": "Package",
+              "version": "[7.4.0, )"
             },
             "MediatR": {
               "target": "Package",

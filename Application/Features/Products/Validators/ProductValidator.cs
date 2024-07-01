@@ -1,9 +1,9 @@
-﻿using Application.Products.Commands;
+﻿using Application.Features.Products.Commands;
 using Application.Repository;
 using Domain;
 using FluentValidation;
 
-namespace Application.Products.Validators
+namespace Application.Features.Products.Validators
 {
     public class ProductValidator : AbstractValidator<UpdateProductCommand>
     {

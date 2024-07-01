@@ -21,10 +21,10 @@ namespace Infrastructure
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.CategoryId);
 
-            modelBuilder.Entity<Product>()
-                .HasOne(p => p.Inventory)
-                .WithOne(i => i.Product)
-                .HasForeignKey<Inventory>(i => i.ProductId);
+            modelBuilder.Entity<Inventory>()
+                .HasOne(i => i.Product)
+                .WithMany(p => p.Inventory)
+                .HasForeignKey(p => p.ProductId);
 
             modelBuilder.Entity<OrderItem>()
                 .HasOne(oi => oi.Order)

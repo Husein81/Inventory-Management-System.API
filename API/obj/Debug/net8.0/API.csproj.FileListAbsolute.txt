@@ -135,3 +135,10 @@ D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\runtimes\win-arm\na
 D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\runtimes\win-arm64\native\e_sqlite3.dll
 D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\runtimes\win-x64\native\e_sqlite3.dll
 D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\runtimes\win-x86\native\e_sqlite3.dll
+D:\Projects\Inventory-Management-System\API\obj\Debug\net8.0\API.sourcelink.json
+D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\Application.dll
+D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\Shared.dll
+D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\Application.pdb
+D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\Shared.pdb
+D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\Mapster.dll
+D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\Mapster.Core.dll

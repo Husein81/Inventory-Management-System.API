@@ -1,5 +1,4 @@
 ﻿using Application.Repository;
-using AutoMapper;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,11 +10,9 @@ namespace Infrastructure.Repository
     public class ProductRepository : IProductRepository
     {
         private readonly AppDbContext _context;
-        private readonly IMapper _mapper;
-        public ProductRepository(AppDbContext context, IMapper mapper)
+        public ProductRepository(AppDbContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
         public async Task<Response<Product>> CreateProduct(Product product)
         {

@@ -12,3 +12,4 @@ D:\Projects\Inventory-Management-System\Domain\obj\Debug\net8.0\refint\Domain.dl
 D:\Projects\Inventory-Management-System\Domain\obj\Debug\net8.0\Domain.pdb
 D:\Projects\Inventory-Management-System\Domain\obj\Debug\net8.0\Domain.genruntimeconfig.cache
 D:\Projects\Inventory-Management-System\Domain\obj\Debug\net8.0\ref\Domain.dll
+D:\Projects\Inventory-Management-System\Domain\obj\Debug\net8.0\Domain.sourcelink.json

@@ -15,7 +15,5 @@ namespace Shared.Requests
         public decimal Discount { get; set; }
         public string ImageUrl { get; set; }
         public Guid CategoryId { get; set; }
-        public Guid InventoryId { get; set; }
-
     }
 }

@@ -3,7 +3,7 @@ using Domain;
 using MediatR;
 using Shared.Response;
 
-namespace Application.Products.Queries
+namespace Application.Features.Products.Queries
 {
     public record GetProductQuery(Guid Id) : IRequest<Response<Product>>;
     public class GetProductQueryHandler : IRequestHandler<GetProductQuery, Response<Product>>

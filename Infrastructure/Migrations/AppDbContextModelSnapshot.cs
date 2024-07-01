@@ -57,8 +57,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId")
-                        .IsUnique();
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Inventories");
                 });
@@ -73,6 +72,10 @@ namespace Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("OrderItemId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OrderStatus")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -92,6 +95,9 @@ namespace Infrastructure.Migrations
                     b.Property<Guid>("ProductId")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("ProductId1")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
 
@@ -106,6 +112,8 @@ namespace Infrastructure.Migrations
                     b.HasIndex("OrderId");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("ProductId1");
 
                     b.ToTable("OrderItems");
                 });
@@ -133,9 +141,6 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("InventoryId")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -156,8 +161,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Inventory", b =>
                 {
                     b.HasOne("Domain.Product", "Product")
-                        .WithOne("Inventory")
-                        .HasForeignKey("Domain.Inventory", "ProductId")
+                        .WithMany("Inventory")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -177,6 +182,10 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Domain.Product", null)
+                        .WithMany("OrderItems")
+                        .HasForeignKey("ProductId1");
 
                     b.Navigation("Order");
 
@@ -206,8 +215,9 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Product", b =>
                 {
-                    b.Navigation("Inventory")
-                        .IsRequired();
+                    b.Navigation("Inventory");
+
+                    b.Navigation("OrderItems");
                 });
 #pragma warning restore 612, 618
         }

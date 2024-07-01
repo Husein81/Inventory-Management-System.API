@@ -15,3 +15,8 @@ D:\Projects\Inventory-Management-System\Infrastructure\obj\Debug\net8.0\refint\I
 D:\Projects\Inventory-Management-System\Infrastructure\obj\Debug\net8.0\Infrastructure.pdb
 D:\Projects\Inventory-Management-System\Infrastructure\obj\Debug\net8.0\Infrastructure.genruntimeconfig.cache
 D:\Projects\Inventory-Management-System\Infrastructure\obj\Debug\net8.0\ref\Infrastructure.dll
+D:\Projects\Inventory-Management-System\Infrastructure\obj\Debug\net8.0\Infrastructure.sourcelink.json
+D:\Projects\Inventory-Management-System\Infrastructure\bin\Debug\net8.0\Application.dll
+D:\Projects\Inventory-Management-System\Infrastructure\bin\Debug\net8.0\Shared.dll
+D:\Projects\Inventory-Management-System\Infrastructure\bin\Debug\net8.0\Application.pdb
+D:\Projects\Inventory-Management-System\Infrastructure\bin\Debug\net8.0\Shared.pdb

@@ -8,17 +8,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Products.Commands
+namespace Application.Features.Products.Commands
 {
-    public record DeleteProductCommand(Guid Id) : IRequest<Response<Product>>;
-    public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand, Response<Product>>
+    public record DeleteProductCommand(Guid Id) : IRequest<Response<Unit>>;
+    public class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand, Response<Unit>>
     {
         private readonly IProductRepository _productRepository;
         public DeleteProductCommandHandler(IProductRepository productRepository)
         {
             _productRepository = productRepository;
         }
-        public async Task<Response<Product>> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
+        public async Task<Response<Unit>> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
             => await _productRepository.DeleteProduct(request.Id);
     }
 }

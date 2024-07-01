@@ -2,11 +2,12 @@
 using AutoMapper;
 using Domain;
 using MediatR;
+using Shared.Requests;
 using Shared.Response;
 
-namespace Application.Products.Commands
+namespace Application.Features.Products.Commands
 {
-    public record UpdateProductCommand(Guid Id, Product product) : IRequest<Response<Product>>;
+    public record UpdateProductCommand(Guid Id, ProductRequest product) : IRequest<Response<Product>>;
     public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Response<Product>>
     {
         private readonly IProductRepository _productRepository;
@@ -19,7 +20,8 @@ namespace Application.Products.Commands
         public async Task<Response<Product>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
             var product = _mapper.Map<Product>(request.product);
-            return await _productRepository.UpdateProduct(request.Id, request.product);
+            product.CalculatePrice();
+            return await _productRepository.UpdateProduct(product.Id, product);
         }
     }
 }
