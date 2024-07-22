@@ -1,5 +1,5 @@
 ﻿using Application.Repository;
-using Domain;
+using Domain.Entities;
 using MediatR;
 using Shared.Response;
 using System;

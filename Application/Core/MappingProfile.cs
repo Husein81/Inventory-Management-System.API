@@ -1,6 +1,7 @@
-﻿using Application.Features.Products.Commands;
+﻿using Application.Features.OrderItems.Commands;
+using Application.Features.Products.Commands;
 using AutoMapper;
-using Domain;
+using Domain.Entities;
 using Shared.Requests;
 
 namespace Application.Core
@@ -13,7 +14,9 @@ namespace Application.Core
 
             CreateMap<CreateProductCommand, Product>();
 
-            CreateMap<CategoryRequest, Category>(); 
+            CreateMap<CategoryRequest, Category>();
+
+            CreateMap<OrderItem, CreateOrderItemCommand>().ReverseMap();
         }
     }
 }

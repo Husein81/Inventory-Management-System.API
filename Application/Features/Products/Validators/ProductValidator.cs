@@ -10,6 +10,7 @@ namespace Application.Features.Products.Validators
         public ProductValidator(IProductRepository productRepository)
         {
 
+
         }
     }
 }

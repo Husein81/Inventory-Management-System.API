@@ -1,7 +1,7 @@
 ﻿using Application.Features.Products.Commands;
 using Application.Features.Products.Queries;
 using Application.Products.Queries;
-using Domain;
+using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Requests;

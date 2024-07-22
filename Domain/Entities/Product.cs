@@ -1,4 +1,4 @@
-﻿namespace Domain
+﻿namespace Domain.Entities
 {
     public class Product
     {
@@ -11,21 +11,17 @@
         public decimal Price { get; set; }
         public string ImageUrl { get; set; }
         public Guid CategoryId { get; set; }
-
         public Category Category { get; set; }
-        public ICollection<Inventory> Inventory { get; set; }
-        public ICollection<OrderItem> OrderItems { get; set; }
-
-
+        public List<OrderItem> OrderItems { get; set; }
         public void CalculatePrice()
         {
-            Price = (Cost + Tax) - Discount;
+            Price = Cost + Tax - Discount;
         }
         public void Update(Product product)
         {
             Name = product.Name;
-            Description = product.Description; 
-            Cost = product.Cost; 
+            Description = product.Description;
+            Cost = product.Cost;
             Tax = product.Tax;
             Discount = product.Discount;
             ImageUrl = product.ImageUrl;

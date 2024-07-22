@@ -1,11 +1,9 @@
 ﻿using Application.Core;
-using Application.Features.Products.Queries;
 using Application.Products.Queries;
 using Application.Repository;
 using Infrastructure;
 using Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 
 namespace API.Extensions
 {
@@ -16,16 +14,28 @@ namespace API.Extensions
         {
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("CorPolicy", policy =>
+                {
+                    policy
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .WithOrigins("https://localhost:7178","http://localhost:5055");
+                });
+            });
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddMediatR(cfg => 
-                cfg.RegisterServicesFromAssembly(Assembly.GetAssembly(typeof(GetProductsQuery))));
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetProductsQuery).Assembly));
+
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+
 
 
             return services;

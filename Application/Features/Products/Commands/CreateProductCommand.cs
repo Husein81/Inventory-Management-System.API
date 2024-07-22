@@ -1,6 +1,6 @@
 ﻿using Application.Repository;
 using AutoMapper;
-using Domain;
+using Domain.Entities;
 using MediatR;
 using Shared.Requests;
 using Shared.Response;

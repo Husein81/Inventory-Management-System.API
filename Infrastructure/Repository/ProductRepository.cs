@@ -1,5 +1,5 @@
 ﻿using Application.Repository;
-using Domain;
+using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Shared.Response;
@@ -20,7 +20,6 @@ namespace Infrastructure.Repository
             var result = await _context.SaveChangesAsync() > 0;
             return result ? Response<Product>.Success(product) 
                 : Response<Product>.Fail("Failed to create product");
-            
         }
 
         public async Task<Response<Unit>> DeleteProduct(Guid id)
@@ -65,6 +64,8 @@ namespace Infrastructure.Repository
             }
 
             product.Update(request);
+            product.CalculatePrice();
+
             var result = await _context.SaveChangesAsync() > 0;
             return result ? Response<Product>.Success(product) 
                 : Response<Product>.Fail("Failed to update product");

@@ -142,3 +142,10 @@ D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\Application.pdb
 D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\Shared.pdb
 D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\Mapster.dll
 D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\Mapster.Core.dll
+D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\System.Text.Json.dll
+D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
+D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
+D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
