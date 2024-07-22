@@ -1,4 +1,4 @@
-﻿namespace Shared.Requests
+﻿namespace Application.Requests
 {
     public class ProductRequest
     {

@@ -2,13 +2,13 @@
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
-using Shared.Requests;
+using Application.Requests;
 using Shared.Response;
 
 
 namespace Application.Features.Products.Commands
 {
-    public record CreateProductCommand(ProductRequest product) : IRequest<Response<Product>>;
+    public record CreateProductCommand(ProductRequest Product) : IRequest<Response<Product>>;
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Response<Product>>
     {
         private readonly IProductRepository _productRepository;
@@ -20,7 +20,7 @@ namespace Application.Features.Products.Commands
         }
         public async Task<Response<Product>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            var product = _mapper.Map<Product>(request.product);
+            var product = _mapper.Map<Product>(request.Product);
             product.CalculatePrice();
 
             return await _productRepository.CreateProduct(product);

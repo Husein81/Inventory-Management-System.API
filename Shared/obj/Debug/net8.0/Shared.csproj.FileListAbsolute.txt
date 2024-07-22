@@ -7,9 +7,9 @@ D:\Projects\Inventory-Management-System\Shared\obj\Debug\net8.0\Shared.Generated
 D:\Projects\Inventory-Management-System\Shared\obj\Debug\net8.0\Shared.AssemblyInfoInputs.cache
 D:\Projects\Inventory-Management-System\Shared\obj\Debug\net8.0\Shared.AssemblyInfo.cs
 D:\Projects\Inventory-Management-System\Shared\obj\Debug\net8.0\Shared.csproj.CoreCompileInputs.cache
+D:\Projects\Inventory-Management-System\Shared\obj\Debug\net8.0\Shared.sourcelink.json
 D:\Projects\Inventory-Management-System\Shared\obj\Debug\net8.0\Shared.dll
 D:\Projects\Inventory-Management-System\Shared\obj\Debug\net8.0\refint\Shared.dll
 D:\Projects\Inventory-Management-System\Shared\obj\Debug\net8.0\Shared.pdb
 D:\Projects\Inventory-Management-System\Shared\obj\Debug\net8.0\Shared.genruntimeconfig.cache
 D:\Projects\Inventory-Management-System\Shared\obj\Debug\net8.0\ref\Shared.dll
-D:\Projects\Inventory-Management-System\Shared\obj\Debug\net8.0\Shared.sourcelink.json

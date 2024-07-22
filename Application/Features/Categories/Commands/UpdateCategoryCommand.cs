@@ -2,7 +2,7 @@
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
-using Shared.Requests;
+using Application.Requests;
 using Shared.Response;
 
 namespace Application.Features.Categories.Commands

@@ -32,9 +32,11 @@ namespace API.Extensions
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetProductsQuery).Assembly));
 
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
+            services.AddHttpContextAccessor();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            services.AddScoped<IUserAccessor, UserAccessor>();
 
 
 

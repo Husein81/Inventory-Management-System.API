@@ -4,7 +4,7 @@ using Application.Products.Queries;
 using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Requests;
+using Application.Requests;
 
 namespace API.Controllers
 {

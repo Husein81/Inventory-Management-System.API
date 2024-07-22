@@ -1,6 +1,6 @@
-﻿namespace Shared.Requests.UserResponses
+﻿namespace API.UserRequests
 {
-    public class UserResponse
+    public class UserRequest
     {
         public string DisplayName { get; set; }
         public string Token { get; set; }

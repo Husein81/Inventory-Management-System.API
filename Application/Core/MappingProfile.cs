@@ -2,7 +2,7 @@
 using Application.Features.Products.Commands;
 using AutoMapper;
 using Domain.Entities;
-using Shared.Requests;
+using Application.Requests;
 
 namespace Application.Core
 {

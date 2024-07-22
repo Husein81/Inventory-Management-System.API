@@ -1,6 +1,6 @@
-﻿namespace Shared.Requests.UserResponses
+﻿namespace API.UserRequests
 {
-    public class LoginResponse
+    public class LoginRequest
     {
         public string Email { get; set; }
         public string Password { get; set; }

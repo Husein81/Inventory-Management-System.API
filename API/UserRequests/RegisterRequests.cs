@@ -1,10 +1,10 @@
-﻿namespace Shared.Requests.UserResponses
+﻿namespace API.UserRequests
 {
-    public class RegisterResponse
+    public class RegisterRequest
     {
         public string DisplayName { get; set; }
+        public string Username { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public string Username { get; set; }
     }
 }
