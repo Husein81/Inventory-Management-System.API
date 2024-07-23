@@ -32,8 +32,12 @@
 
   <ItemGroup>
     <Folder Include="Features\Categories\Validators\" />
-    <Folder Include="Features\Invoice\" />
+    <Folder Include="Features\Customers\Commands\" />
+    <Folder Include="Features\Customers\Queries\" />
+    <Folder Include="Features\Invoices\" />
     <Folder Include="Features\OrderItems\Validators\" />
+    <Folder Include="Features\Suppliers\Commands\" />
+    <Folder Include="Features\Suppliers\Queries\" />
   </ItemGroup>
 
 </Project>

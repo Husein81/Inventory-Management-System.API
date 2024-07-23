@@ -9,6 +9,8 @@
         public AppUser AppUser { get; set; }
         public Invoice Invoice { get; set; }
         public List<OrderItem> OrderItems { get; set; } = new();
+        public Guid CustomerId { get; set; }
+        public Customer Customer {  get; set; }
 
         public void Update(Order order)
         {
@@ -17,6 +19,7 @@
             OrderItems = order.OrderItems;
             AppUserId = order.AppUserId;
             Invoice = order.Invoice;
+            CustomerId = order.CustomerId;
         }
     }
 }
