@@ -33,7 +33,9 @@ namespace API.Extensions
 
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
             services.AddHttpContextAccessor();
+
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             services.AddScoped<IUserAccessor, UserAccessor>();

@@ -22,7 +22,7 @@ namespace Application.Features.Categories.Commands
         {
             var category =  _mapper.Map<Category>(request.CategoryRequest);
 
-            return await _categoryRepository.CreateCategory(category);
+           return await _categoryRepository.CreateCategory(category);
         }
     }
 }
