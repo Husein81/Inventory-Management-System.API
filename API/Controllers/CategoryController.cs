@@ -4,6 +4,7 @@ using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Application.Requests;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {

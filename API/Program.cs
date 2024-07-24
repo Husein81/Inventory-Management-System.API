@@ -16,6 +16,8 @@ builder.Services.AddControllers(opt =>
     opt.Filters.Add(new AuthorizeFilter(policy));
 });
 
+builder.Services.AddAuthorization();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddAppServices(builder.Configuration);
 builder.Services.AddIdentityService(builder.Configuration);
@@ -29,6 +31,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+
 app.UseCors("CorPolicy");
 
 app.UseHttpsRedirection();
@@ -38,22 +42,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-using var scope = app.Services.CreateScope();
-
-var services = scope.ServiceProvider;
-
-try
-{
-    var context = services.GetRequiredService<AppDbContext>();
-    var userManager = services.GetRequiredService<UserManager<AppUser>>();
-
-    await context.Database.MigrateAsync();
-
-}catch(Exception ex)
-{
-    var logger = services.GetRequiredService<ILogger<Program>>();
-    logger.LogError(ex, "An error occurred during migration");
-}
 
 app.Run();

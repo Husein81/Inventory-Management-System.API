@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace API.Controllers
 {
@@ -15,9 +17,15 @@ namespace API.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly TokenServices _tokenServices;
-
-        public AccountController(UserManager<AppUser> userManager, TokenServices tokenServices)
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly IConfiguration _configuration;
+        public AccountController(UserManager<AppUser> userManager, 
+            SignInManager<AppUser> signInManager, 
+            TokenServices tokenServices, 
+            IConfiguration configuration)
         {
+            _signInManager = signInManager;
+            _configuration = configuration;
             _userManager = userManager;
             _tokenServices = tokenServices;
         }
@@ -30,13 +38,14 @@ namespace API.Controllers
 
             if(user is null)
             {
-                return Unauthorized("Invalid Email");
+                return Unauthorized("Account does not exist");
             }
-            var result = await _userManager.CheckPasswordAsync(user, request.Password);
 
-            if (result)
+            var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+
+            if (result.Succeeded) 
             {
-                return new UserRequest()
+                return new UserRequest
                 {
                     DisplayName = user.DisplayName,
                     Token = _tokenServices.CreateToken(user),
@@ -44,7 +53,6 @@ namespace API.Controllers
                     ImageUrl = null,
                 };
             }
-
             return Unauthorized("Invalid Email or Password");
         } 
 

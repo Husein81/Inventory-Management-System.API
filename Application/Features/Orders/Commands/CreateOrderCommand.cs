@@ -1,5 +1,6 @@
 ﻿
 using Application.Repository;
+using Application.Requests;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -7,7 +8,7 @@ using Shared.Response;
 
 namespace Application.Features.Orders.Commands
 {
-    public record CreateOrderCommand(Order request) : IRequest<Response<Order>>;
+    public record CreateOrderCommand(OrderRequest request) : IRequest<Response<Order>>;
 
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Response<Order>>
     {

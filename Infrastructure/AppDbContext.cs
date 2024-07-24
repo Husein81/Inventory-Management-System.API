@@ -46,10 +46,6 @@ namespace Infrastructure
                 .HasForeignKey<Invoice>(i => i.OrderId);
 
             modelBuilder.Entity<Order>()
-                .HasOne(o => o.AppUser)
-                .WithMany(u => u.Orders)
-                .HasForeignKey(o => o.AppUserId);
-            modelBuilder.Entity<Order>()
                 .HasOne(o => o.Customer)
                 .WithMany(c => c.Orders)
                 .HasForeignKey(o => o.CustomerId);

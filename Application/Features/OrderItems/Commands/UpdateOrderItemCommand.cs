@@ -1,4 +1,5 @@
 ﻿using Application.Repository;
+using Application.Requests;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
@@ -6,7 +7,7 @@ using Shared.Response;
 
 namespace Application.Features.OrderItems.Commands
 {
-    public record UpdateOrderItemCommand(Guid Id, OrderItem request) : IRequest<Response<OrderItem>>;
+    public record UpdateOrderItemCommand(Guid Id, OrderItemRequest request) : IRequest<Response<OrderItem>>;
 
     public class UpdateOrderItemCommandHandler : IRequestHandler<UpdateOrderItemCommand, Response<OrderItem>>
     {
