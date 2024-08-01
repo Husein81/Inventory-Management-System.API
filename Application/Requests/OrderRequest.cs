@@ -6,11 +6,21 @@ namespace Application.Requests
     {
         public DateTime OrderDate { get; set; }
         public string OrderStatus { get; set; }
-        public string AppUserId { get; set; }
-        public AppUser AppUser { get; set; }
-        public InvoiceRequest Invoice { get; set; }
-        public List<OrderItemRequest> OrderItems { get; set; } = new();
+        public string ShippingAddress { get; set; }
+        public decimal ItemsPrice { get; set; }
+        public decimal TaxPrice { get; set; }
+        public decimal Discount { get; set; }
+        public decimal TotalAmount { get; set; }
         public Guid CustomerId { get; set; }
-        public CustomerRequest Customer { get; set; }
+        public List<OrderItemRequest> OrderItems { get; set;}
+       
+    }
+    public class CreateOrderRequest
+    {
+        public List<OrderItemRequest> orderItems { get; set; }
+        public decimal ItemsPrice { get; set; }
+        public decimal TaxesPrice { get; set; }
+        public decimal Discount { get; set; }
+        public decimal TotalAmount { get; set; }
     }
 }

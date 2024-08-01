@@ -4,6 +4,7 @@ using AutoMapper;
 using Domain.Entities;
 using Application.Requests;
 using Application.Features.Categories.Commands;
+using Application.Features.Orders.Commands;
 
 namespace Application.Core
 {
@@ -12,15 +13,17 @@ namespace Application.Core
         public MappingProfile()
         {
             CreateMap<Product, ProductRequest>().ReverseMap();
-
-            CreateMap<CreateProductCommand, Product>();
+          
 
             CreateMap<CategoryRequest, Category>();
-            CreateMap<CreateCategoryCommand, Category>();
-
-            CreateMap<OrderItem, CreateOrderItemCommand>().ReverseMap();
             CreateMap<SupplierRequest, Supplier>();
             CreateMap<CustomerRequest, Customer>();
+            CreateMap<OrderItemRequest, OrderItem>();
+          
+            CreateMap<OrderRequest, Order>();
+          
+           
+           
 
         }
     }

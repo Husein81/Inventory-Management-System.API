@@ -21,7 +21,11 @@ namespace Application.Features.Products.Commands
         public async Task<Response<Product>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var product = _mapper.Map<Product>(request.Product);
-            product.CalculatePrice();
+
+            if (product.Cost > product.Price || product.Cost < 1 || product.Price < 1 )
+            { 
+               return Response<Product>.Fail("Cost cannot be greater than price nor they can be negative");
+            }
 
             return await _productRepository.CreateProduct(product);
         }

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class SupplierController : BaseController
+    public class SupplierController : BaseApiController
     {
         [HttpGet]
         public async Task<ActionResult<List<Supplier>>> GetSuppliers()

@@ -34,7 +34,7 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserRequest>> Login([FromBody] LoginRequest request)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Email == request.Email);
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == request.Username);
 
             if(user is null)
             {
@@ -45,13 +45,22 @@ namespace API.Controllers
 
             if (result.Succeeded) 
             {
-                return new UserRequest
+                var u = new UserRequest
                 {
                     DisplayName = user.DisplayName,
                     Token = _tokenServices.CreateToken(user),
                     Username = user.UserName,
                     ImageUrl = null,
                 };
+                var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Expires = DateTime.UtcNow.AddDays(7)
+                };
+
+                Response.Cookies.Append("jwt", u.Token, cookieOptions);
+
+                return u;
             }
             return Unauthorized("Invalid Email or Password");
         } 

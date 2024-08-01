@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class CustomerController : BaseController
+    public class CustomerController : BaseApiController
     {
         [HttpGet]
         public async Task<ActionResult<List<Customer>>> GetCustomers()

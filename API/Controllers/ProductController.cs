@@ -5,15 +5,16 @@ using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Application.Requests;
+using Shared;
 
 namespace API.Controllers
 {
-    public class ProductController : BaseController
+    public class ProductController : BaseApiController
     {
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetProducts(CancellationToken cancellationToken)
+        public async Task<ActionResult<PagedList<Product>>> GetProducts(int pageNumber  , int pageSize , CancellationToken cancellationToken)
         {
-            var products = await Mediator.Send(new GetProductsQuery(), cancellationToken);
+            var products = await Mediator.Send(new GetProductsQuery(pageNumber, pageSize), cancellationToken);
             return HandleResult(products);
         }
 

@@ -1,6 +1,7 @@
 ﻿using Application.Repository;
 using Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Shared.Response;
 
@@ -14,8 +15,10 @@ namespace Infrastructure.Repository
             _context = context;
         }
         public async Task<Response<OrderItem>> CreateOrderItem(OrderItem request)
-        {   
+        { 
+           
             await _context.OrderItems.AddAsync(request);
+
             var result = await _context.SaveChangesAsync() > 0;
 
             return result ? Response<OrderItem>.Success(request)
@@ -39,7 +42,12 @@ namespace Infrastructure.Repository
 
         public async Task<Response<OrderItem>> GetOrderItem(Guid id)
         {
-            var orderItem = await _context.OrderItems.FirstOrDefaultAsync(x => x.Id == id);
+            var orderItem = await _context.OrderItems
+                .Include(x => x.Product)
+                    .ThenInclude(x => x.Supplier)
+                .Include(x => x.Product)
+                    .ThenInclude(x => x.Category)
+                .FirstOrDefaultAsync(x => x.Id == id);
             if (orderItem is null)
             {
                 return Response<OrderItem>.Fail($"Order item with id:{id} not found");
@@ -49,18 +57,26 @@ namespace Infrastructure.Repository
         }
 
         public async Task<Response<List<OrderItem>>> GetOrderItems()
-            => Response<List<OrderItem>>.Success(await _context.OrderItems.ToListAsync());
+            => Response<List<OrderItem>>.Success(await _context.OrderItems.Include(x => x.Product)
+                                                                            .ThenInclude(x => x.Supplier)
+                                                                        .Include(x => x.Product)
+                                                                            .ThenInclude(x => x.Category).ToListAsync());
 
         public async Task<Response<OrderItem>> UpdateOrderItem(Guid Id, OrderItem request)
         {
-            var orderItem = await _context.OrderItems.FirstOrDefaultAsync(x => x.Id == Id);
+            var orderItem = await _context.OrderItems
+                .Include(x => x.Product)
+                    .ThenInclude(x => x.Supplier)
+                .Include(x => x.Product)
+                    .ThenInclude(x => x.Category)
+                .FirstOrDefaultAsync(x => x.Id == Id);
             if (orderItem is null)
             {
                 return Response<OrderItem>.Fail($"Order item with id:{Id} not found");
             }
             
-            orderItem.Update(request); 
-            orderItem.CalculateTotalPrice();
+            orderItem.Update(request);
+        
 
             var result = await _context.SaveChangesAsync() > 0;
 

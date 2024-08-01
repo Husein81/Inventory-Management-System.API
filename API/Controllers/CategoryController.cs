@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
-    public class CategoryController : BaseController
+    public class CategoryController : BaseApiController
     {
         [HttpGet]
         public async Task<ActionResult<List<Category>>> GetCategories()

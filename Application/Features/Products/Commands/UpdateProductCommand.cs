@@ -7,7 +7,7 @@ using Shared.Response;
 
 namespace Application.Features.Products.Commands
 {
-    public record UpdateProductCommand(Guid Id, ProductRequest product) : IRequest<Response<Product>>;
+    public record UpdateProductCommand(Guid Id, ProductRequest Product) : IRequest<Response<Product>>;
     public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Response<Product>>
     {
         private readonly IProductRepository _productRepository;
@@ -19,9 +19,8 @@ namespace Application.Features.Products.Commands
         }
         public async Task<Response<Product>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            var product = _mapper.Map<Product>(request.product);
-            product.CalculatePrice();
-            return await _productRepository.UpdateProduct(product.Id, product);
+            var product = _mapper.Map<Product>(request.Product);
+            return await _productRepository.UpdateProduct(request.Id, product);
         }
     }
 }

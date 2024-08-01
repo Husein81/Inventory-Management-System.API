@@ -2,6 +2,7 @@
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared;
 using Shared.Response;
 
 
@@ -24,7 +25,8 @@ namespace Infrastructure.Repository
 
         public async Task<Response<Unit>> DeleteProduct(Guid id)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            var product = await _context.Products.Include(p => p.Supplier)
+                .Include(p => p.Category).FirstOrDefaultAsync(x => x.Id == id);
 
             if (product is null) 
             {
@@ -41,7 +43,9 @@ namespace Infrastructure.Repository
 
         public async Task<Response<Product>> GetProductById(Guid id)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            var product = await _context.Products
+                .Include(p => p.Supplier)
+                .Include(p => p.Category).FirstOrDefaultAsync(x => x.Id == id);
 
             if (product is null)
             {
@@ -51,20 +55,25 @@ namespace Infrastructure.Repository
 
         }
 
-        public async Task<Response<List<Product>>> GetProducts()
-            => Response<List<Product>>.Success(await _context.Products.ToListAsync());
-
-        public async Task<Response<Product>> UpdateProduct(Guid id, Product request)
+        public async Task<Response<PagedList<Product>>> GetProducts(int pageNumber = 1, int pageSize = 10)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            var products = await _context.Products.Include(p => p.Supplier)
+                .Include(p => p.Category).ToListAsync();
+            var result = PagedList<Product>.ToPagedList(products, pageNumber, pageSize);
+            return Response<PagedList<Product>>.Success(result); 
+        }
+
+        public async Task<Response<Product>> UpdateProduct(Guid Id, Product request)
+        {
+            var product = await _context.Products.Include(p => p.Supplier)
+                .Include(p => p.Category).FirstOrDefaultAsync(x => x.Id == Id);
 
             if (product is null)
             {
-                return Response<Product>.Fail($"Product with id:{id} not found");
+                return Response<Product>.Fail($"Product with id:{Id} not found");
             }
 
-            product.Update(request);
-            product.CalculatePrice();
+            product.Update(request); 
 
             var result = await _context.SaveChangesAsync() > 0;
             return result ? Response<Product>.Success(product) 
