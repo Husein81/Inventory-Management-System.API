@@ -4,14 +4,15 @@ using Application.Requests;
 using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 
 namespace API.Controllers
 {
     public class OrderController : BaseApiController
     {
         [HttpGet]
-        public async Task<IActionResult> GetOrders()
-            => HandleResult(await Mediator.Send(new GetOrdersQuery()));
+        public async Task<ActionResult<PagedList<Order>>> GetOrders(int page, int pageSize, string searchTerm, CancellationToken cancellationToken)
+            => HandlePagedResult(await Mediator.Send(new GetOrdersQuery(page, pageSize, searchTerm),cancellationToken));
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrder(Guid id)

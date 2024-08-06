@@ -5,14 +5,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Application.Requests;
 using Microsoft.AspNetCore.Authorization;
+using Shared;
 
 namespace API.Controllers
 {
     public class CategoryController : BaseApiController
     {
         [HttpGet]
-        public async Task<ActionResult<List<Category>>> GetCategories()
-            => HandleResult(await Mediator.Send(new GetCategoriesQuery()));
+        public async Task<ActionResult<PagedList<Category>>> GetCategories(int page, int pageSize, CancellationToken cancellation)
+            => HandlePagedResult(await Mediator.Send(new GetCategoriesQuery(page, pageSize), cancellation));
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategory(Guid id)

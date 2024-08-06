@@ -1,7 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
+using API.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 using Shared.Response;
 
 namespace API.Controllers
@@ -18,6 +19,21 @@ namespace API.Controllers
 
             if (result.IsSuccess && result.Value is not null)
             {
+                return Ok(result.Value);
+            }
+            if (result.IsSuccess && result.Value is null)
+            {
+                return NotFound();
+            }
+            return BadRequest(result.Message);
+        }
+        protected ActionResult HandlePagedResult<T>(Response<PagedList<T>> result)
+        {
+            if (result is null) return NotFound();
+            if (result.IsSuccess && result.Value is not null)
+            {
+                Response.AddPaginationHeader(
+                    result.Value.CurrentPage, result.Value.PageSize, result.Value.TotalCount, result.Value.TotalPages);
                 return Ok(result.Value);
             }
             if (result.IsSuccess && result.Value is null)

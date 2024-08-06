@@ -1,9 +1,12 @@
-﻿namespace Domain.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Domain.Entities
 {
     public class Order
     {
         public Guid Id { get; set; }
-        public DateTime OrderDate { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
         public string OrderStatus { get; set; }
         public string ShippingAddress { get; set; }
         public decimal ItemsPrice { get; set; }
@@ -15,7 +18,6 @@
 
         public void Update(Order order)
         {
-            OrderDate = order.OrderDate;
             OrderStatus = order.OrderStatus;
             ShippingAddress = order.ShippingAddress;
             ItemsPrice = order.ItemsPrice;
@@ -23,6 +25,7 @@
             TotalAmount = order.TotalAmount;
             CustomerId = order.CustomerId;
             OrderItems = order.OrderItems;
+            UpdatedAt = order.UpdatedAt;
         }
     }
 }

@@ -55,12 +55,21 @@ namespace Infrastructure.Repository
 
         }
 
-        public async Task<Response<PagedList<Product>>> GetProducts(int pageNumber = 1, int pageSize = 10)
+        public async Task<Response<PagedList<Product>>> GetProducts(int page, int pageSize, string searchTerm )
         {
-            var products = await _context.Products.Include(p => p.Supplier)
-                .Include(p => p.Category).ToListAsync();
-            var result = PagedList<Product>.ToPagedList(products, pageNumber, pageSize);
-            return Response<PagedList<Product>>.Success(result); 
+            var products = _context.Products
+                .Include(p => p.Supplier)
+                .Include(p => p.Category)
+                .OrderByDescending(x => x.CreatedAt)
+                .AsQueryable();
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = searchTerm.ToLower();
+                products = products.Where( p => p.Name.ToLower().Contains(searchTerm));
+            }
+
+            return Response<PagedList<Product>>.Success(
+                await PagedList<Product>.ToPagedList(products, page, pageSize)); 
         }
 
         public async Task<Response<Product>> UpdateProduct(Guid Id, Product request)

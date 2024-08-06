@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,20 +14,20 @@ namespace Shared
         public int PageSize { get; set; }
         public int TotalCount { get; set; }
 
-        public PagedList(IEnumerable<T> items, int count, int pageNumber, int pageSize)
+        public PagedList(IEnumerable<T> items, int count, int page, int pageSize)
         {
-            TotalCount = count;
-            PageSize = pageSize;
-            CurrentPage = pageNumber;
+            CurrentPage = page;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+            PageSize = pageSize;
+            TotalCount = count;
             AddRange(items);
         }
 
-        public static PagedList<T> ToPagedList(IEnumerable<T> source, int pageNumber, int pageSize)
+        public static async Task<PagedList<T>> ToPagedList(IQueryable<T> source, int page, int pageSize)
         {
-            var count = source.Count();
-            var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-            return new PagedList<T>(items, count, pageNumber, pageSize);
+            var count = await source.CountAsync();
+            var items = await  source.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            return new PagedList<T>(items, count, page, pageSize);
         }
     }
 }

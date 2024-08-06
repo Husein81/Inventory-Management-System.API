@@ -1,7 +1,11 @@
 ﻿using Application.Repository;
+using Application.Requests;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared;
 using Shared.Response;
 
 namespace Infrastructure.Repository
@@ -9,12 +13,15 @@ namespace Infrastructure.Repository
     public class OrderRepository : IOrderRepository
     {
         private readonly AppDbContext _context;
-        public OrderRepository(AppDbContext context)
+        private readonly IMapper _mapper;
+        public OrderRepository(AppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
         public async Task<Response<Order>> CreateOrder(Order request)
         {
+    
             await _context.Orders.AddAsync(request);
 
             var result = await _context.SaveChangesAsync() > 0;
@@ -25,7 +32,7 @@ namespace Infrastructure.Repository
 
         public async Task<Response<Unit>> DeleteOrder(Guid Id)
         {
-            var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == Id);
+            var order = await _context.Orders.Include(x => x.OrderItems).FirstOrDefaultAsync(x => x.Id == Id);
             if (order is null)
             {
                 return Response<Unit>.Fail($"Order with id:{Id} not found");
@@ -38,26 +45,40 @@ namespace Infrastructure.Repository
                 : Response<Unit>.Fail("Failed to delete order");
         }
 
-        public async Task<Response<Order>> GetOrder(Guid Id)
+        public async Task<Response<OrderDto>> GetOrder(Guid Id)
         {
             var order = await _context.Orders
                            .Include(x => x.Customer)
                            .Include(x => x.OrderItems)
+                           .ThenInclude(x => x.Product)
+                           .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
                            .FirstOrDefaultAsync(x => x.Id == Id);
             if (order is null)
             {
-                return Response<Order>.Fail($"Order with id:{Id} not found");
+                return Response<OrderDto>.Fail($"Order with id:{Id} not found");
             }
 
-            return Response<Order>.Success(order);
+            return Response<OrderDto>.Success(order);
         }
 
-        public async Task<Response<List<Order>>> GetOrders()
-            => Response<List<Order>>.Success(await _context.Orders
-                    .Include(x => x.Customer)
-                    .Include(x => x.OrderItems)
-                        .ThenInclude(o => o.Product)
-                    .ToListAsync());
+        public async Task<Response<PagedList<OrderDto>>> GetOrders(int page, int pageSize, string searchTerm)
+        {
+            var orders = _context.Orders
+                .Include(x => x.Customer)
+                .Include(x => x.OrderItems)
+                .ThenInclude(o => o.Product)
+                .OrderByDescending(x => x.CreatedAt)
+                .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
+                .AsQueryable();
+
+            if(!string.IsNullOrEmpty(searchTerm))
+            {   
+                searchTerm = searchTerm.ToLower();
+                orders = orders.Where(x => x.Customer.Name.ToLower().Contains(searchTerm));
+            }
+            return Response<PagedList<OrderDto>>.Success(
+                await PagedList<OrderDto>.ToPagedList(orders, page, pageSize));
+        }
 
         public async Task<Response<Order>> UpdateOrder(Guid Id, Order request)
         {

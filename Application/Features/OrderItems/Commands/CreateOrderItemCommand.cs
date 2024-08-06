@@ -29,7 +29,7 @@ namespace Application.Features.OrderItems.Commands
 
             var orderItem = _mapper.Map<OrderItem>(request.Request);
 
-            if (orderItem.Product.Quantity - orderItem.Quantity < 0)
+            if (orderItem.Product.Quantity - orderItem.Qty < 0)
             {
                 return Response<OrderItem>.Fail("Quantity of order can't be greater from quantity in stock");
             }

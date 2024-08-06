@@ -21,9 +21,11 @@ namespace Application.Core
             CreateMap<OrderItemRequest, OrderItem>();
           
             CreateMap<OrderRequest, Order>();
-          
-           
-           
+            CreateMap<Customer, CustomerDto>();
+            CreateMap<Order, CustomerOrderDto>();
+            CreateMap<Order, OrderDto>();
+            CreateMap<Customer, OrderCustomer>();
+            CreateMap<Order, OrderDto>();
 
         }
     }

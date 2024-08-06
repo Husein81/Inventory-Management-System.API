@@ -12,10 +12,10 @@ namespace API.Controllers
     public class ProductController : BaseApiController
     {
         [HttpGet]
-        public async Task<ActionResult<PagedList<Product>>> GetProducts(int pageNumber  , int pageSize , CancellationToken cancellationToken)
+        public async Task<ActionResult<PagedList<Product>>> GetProducts(int page  , int pageSize, string searchTerm , CancellationToken cancellationToken)
         {
-            var products = await Mediator.Send(new GetProductsQuery(pageNumber, pageSize), cancellationToken);
-            return HandleResult(products);
+            var products = await Mediator.Send(new GetProductsQuery(page, pageSize, searchTerm), cancellationToken);
+            return HandlePagedResult(products);
         }
 
         [HttpGet("{id}")]

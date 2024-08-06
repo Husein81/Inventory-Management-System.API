@@ -1,5 +1,7 @@
-﻿using Domain.Entities;
+﻿using Application.Requests;
+using Domain.Entities;
 using MediatR;
+using Shared;
 using Shared.Response;
 
 namespace Application.Repository
@@ -11,6 +13,7 @@ namespace Application.Repository
         Task<Response<Customer>> CreateCustomer(Customer request);
         Task<Response<Customer>> UpdateCustomer(Guid Id,Customer request);
         Task<Response<Unit>> DeleteCustomer(Guid id);
+        Task<Response<PagedList<OrderDto>>> GetCustomerOrders(Guid id);
 
     }
 }

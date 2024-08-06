@@ -4,7 +4,8 @@
     {
         public string Name { get; set; }
         public decimal Price { get; set; }
-        public int Quantity { get; set; }
+        public double Qty { get; set; }
+        public decimal Discount { get; set; } = 0;
         public Guid ProductId { get; set; }
     }
 }

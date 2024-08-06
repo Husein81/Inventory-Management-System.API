@@ -2,6 +2,7 @@
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared;
 using Shared.Response;
 
 namespace Infrastructure.Repository
@@ -38,8 +39,12 @@ namespace Infrastructure.Repository
                 : Response<Unit>.Fail("Failed to delete category");
         }
 
-        public async Task<Response<List<Category>>> GetCategories()
-            => Response<List<Category>>.Success(await _context.Categories.ToListAsync());
+        public async Task<Response<PagedList<Category>>> GetCategories(int page, int pageSize)
+        {
+            var categories = _context.Categories.AsQueryable();
+            return Response<PagedList<Category>>.Success(
+                await PagedList<Category>.ToPagedList(categories, page, pageSize));
+        }
 
         public async Task<Response<Category>> GetCategory(Guid id)
         {

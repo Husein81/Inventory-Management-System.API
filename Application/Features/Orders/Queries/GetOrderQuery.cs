@@ -1,13 +1,14 @@
 ﻿
 using Application.Repository;
+using Application.Requests;
 using Domain.Entities;
 using MediatR;
 using Shared.Response;
 
 namespace Application.Features.Orders.Queries
 {
-    public record GetOrderQuery(Guid Id) : IRequest<Response<Order>>;
-    public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, Response<Order>>
+    public record GetOrderQuery(Guid Id) : IRequest<Response<OrderDto>>;
+    public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, Response<OrderDto>>
     {
         private readonly IOrderRepository _orderRepository;
         public GetOrderQueryHandler(IOrderRepository orderRepository)
@@ -15,7 +16,7 @@ namespace Application.Features.Orders.Queries
             _orderRepository = orderRepository;
         }
 
-        public async Task<Response<Order>> Handle(GetOrderQuery request, CancellationToken cancellationToken)
+        public async Task<Response<OrderDto>> Handle(GetOrderQuery request, CancellationToken cancellationToken)
         {
             var order = await _orderRepository.GetOrder(request.Id);
             return order;

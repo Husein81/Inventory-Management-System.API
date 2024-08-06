@@ -6,14 +6,16 @@
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Cost { get; set; }
-        public int Quantity { get; set; }
+        public double Quantity { get; set; }
         public decimal Price { get; set; }
         public string Currency { get; set; }
-        public string ImageUrl { get; set; }
+        public List<string> ImageUrls { get; set; }
         public Guid CategoryId { get; set; }
         public Category Category { get; set; }
         public Guid SupplierId { get; set; }
         public Supplier Supplier { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
        
         public void Update(Product product)
         {
@@ -23,9 +25,10 @@
             Quantity = product.Quantity;
             Price = product.Price;
             Currency = product.Currency;
-            ImageUrl = product.ImageUrl;
+            ImageUrls = product.ImageUrls;
             CategoryId = product.CategoryId;
             SupplierId = product.SupplierId;
+            UpdatedAt = DateTime.Now;
         }
     }
 }
