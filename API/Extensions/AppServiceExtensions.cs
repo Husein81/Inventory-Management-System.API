@@ -77,6 +77,7 @@ namespace API.Extensions
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddScoped<IDashboardRepository, DashboardRepository>();
             services.AddScoped<EmailSender>();
 
 
