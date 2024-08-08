@@ -3,6 +3,7 @@ using Application.Requests;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
+using Shared;
 using Shared.Response;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,8 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Customers.Queries
 {
-    public record GetCustomersQuery : IRequest<Response<List<CustomerDto>>>;
-    public class GetCustomerQueriesHandler : IRequestHandler<GetCustomersQuery, Response<List<CustomerDto>>>
+    public record GetCustomersQuery(int Page, int PageSize) : IRequest<Response<PagedList<CustomerDto>>>;
+    public class GetCustomerQueriesHandler : IRequestHandler<GetCustomersQuery, Response<PagedList<CustomerDto>>>
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly IMapper _mapper;
@@ -24,9 +25,9 @@ namespace Application.Features.Customers.Queries
             _mapper = mapper;
         }
 
-        public async Task<Response<List<CustomerDto>>> Handle(GetCustomersQuery request, CancellationToken cancellationToken)
+        public async Task<Response<PagedList<CustomerDto>>> Handle(GetCustomersQuery request, CancellationToken cancellationToken)
         {
-            return Response<List<CustomerDto>>.Success(_mapper.Map<List<CustomerDto>>((await _customerRepository.GetCustomers()).Value));
+            return Response<PagedList<CustomerDto>>.Success(_mapper.Map<PagedList<CustomerDto>>((await _customerRepository.GetCustomers(request.Page,request.PageSize)).Value));
         }
     }
 }

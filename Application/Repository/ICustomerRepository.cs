@@ -8,7 +8,7 @@ namespace Application.Repository
 {
     public interface ICustomerRepository
     {
-        Task<Response<List<Customer>>> GetCustomers();
+        Task<Response<PagedList<Customer>>> GetCustomers(int page, int pageSize);
         Task<Response<Customer>> GetCustomer(Guid id);
         Task<Response<Customer>> CreateCustomer(Customer request);
         Task<Response<Customer>> UpdateCustomer(Guid Id,Customer request);

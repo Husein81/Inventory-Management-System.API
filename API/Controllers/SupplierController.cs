@@ -4,14 +4,15 @@ using Application.Requests;
 using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 
 namespace API.Controllers
 {
     public class SupplierController : BaseApiController
     {
         [HttpGet]
-        public async Task<ActionResult<List<Supplier>>> GetSuppliers()
-            => HandleResult(await Mediator.Send(new GetSuppliersQuery()));
+        public async Task<ActionResult<PagedList<Supplier>>> GetSuppliers(int page, int pageSize,CancellationToken cancellationToken)
+            => HandlePagedResult(await Mediator.Send(new GetSuppliersQuery(page, pageSize), cancellationToken));
         [HttpGet("{id}")]
         public async Task<ActionResult> GetSupplier(Guid id)
             => HandleResult(await Mediator.Send(new GetSupplierQuery(id)));

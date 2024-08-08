@@ -1,4 +1,5 @@
-﻿using Application.Repository;
+﻿using Application.Features.Customers.Queries;
+using Application.Repository;
 using Application.Requests;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -20,12 +21,13 @@ namespace Infrastructure.Repository
             _context = context;
             _mapper = mapper;
         }
-        public async Task<Response<List<Customer>>> GetCustomers()
+        public async Task<Response<PagedList<Customer>>> GetCustomers(int page, int pageSize)
         {
-            return Response<List<Customer>>.Success(await _context.Customers
+            var customers = _context.Customers
                 .Include(x => x.Orders)
                 .ThenInclude(x => x.OrderItems)
-                .ThenInclude(x => x.Product).ToListAsync());
+                .ThenInclude(x => x.Product).AsQueryable(); 
+            return Response<PagedList<Customer>>.Success(await PagedList<Customer>.ToPagedList(customers,page, pageSize));
         } 
         // Order, OrderItems
         public async Task<Response<Customer>> GetCustomer(Guid id)

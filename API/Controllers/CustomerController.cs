@@ -5,14 +5,15 @@ using Domain.Entities;
 using Infrastructure.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 
 namespace API.Controllers
 {
     public class CustomerController : BaseApiController
     {
         [HttpGet]
-        public async Task<ActionResult<List<Customer>>> GetCustomers()
-            => HandleResult(await Mediator.Send(new GetCustomersQuery()));
+        public async Task<ActionResult<PagedList<Customer>>> GetCustomers(int page, int pageSize, CancellationToken cancellationToken)
+            => HandlePagedResult(await Mediator.Send(new GetCustomersQuery(page, pageSize), cancellationToken));
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCustomer(Guid id)

@@ -157,3 +157,6 @@ D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\API.pdb
 D:\Projects\Inventory-Management-System\API\obj\Debug\net8.0\API.csproj.Up2Date
 D:\Projects\Inventory-Management-System\API\obj\Debug\net8.0\API.genruntimeconfig.cache
 D:\Projects\Inventory-Management-System\API\obj\Debug\net8.0\ref\API.dll
+D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\SendGrid.dll
+D:\Projects\Inventory-Management-System\API\bin\Debug\net8.0\StarkbankEcdsa.dll

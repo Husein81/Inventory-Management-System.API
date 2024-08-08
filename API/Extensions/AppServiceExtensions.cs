@@ -2,8 +2,10 @@
 using Application.Products.Queries;
 using Application.Repository;
 using Infrastructure;
+using Infrastructure.Email;
 using Infrastructure.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -75,6 +77,7 @@ namespace API.Extensions
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddScoped<EmailSender>();
 
 
 

@@ -32,7 +32,7 @@ namespace API.Extensions
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
                 signingCredentials: creds,
-                expires: DateTime.Now.AddDays(2)
+                expires: DateTime.Now.AddDays(7)
             );
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);

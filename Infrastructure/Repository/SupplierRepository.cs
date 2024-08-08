@@ -2,6 +2,7 @@
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Shared;
 using Shared.Response;
 
 namespace Infrastructure.Repository
@@ -45,8 +46,12 @@ namespace Infrastructure.Repository
             return Response<Supplier>.Success(supplier);
         }
 
-        public async Task<Response<List<Supplier>>> GetSuppliers()
-            => Response<List<Supplier>>.Success(await _context.Suppliers.ToListAsync());
+        public async Task<Response<PagedList<Supplier>>> GetSuppliers(int page, int pageSize)
+        {
+            var suppliers = _context.Suppliers.AsQueryable();
+            return Response<PagedList<Supplier>>.Success(
+                await PagedList<Supplier>.ToPagedList(suppliers, page, pageSize));
+        }
 
         public Task<Response<Supplier>> UpdateSupplier(Guid Id, Supplier request)
         {

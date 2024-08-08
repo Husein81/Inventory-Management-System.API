@@ -5,6 +5,7 @@ using Domain.Entities;
 using Application.Requests;
 using Application.Features.Categories.Commands;
 using Application.Features.Orders.Commands;
+using Shared;
 
 namespace Application.Core
 {
@@ -26,7 +27,18 @@ namespace Application.Core
             CreateMap<Order, OrderDto>();
             CreateMap<Customer, OrderCustomer>();
             CreateMap<Order, OrderDto>();
+            CreateMap<Customer, CustomerDto>();
 
+            CreateMap(typeof(PagedList<>), typeof(PagedList<>))
+            .ConvertUsing(typeof(PagedListConverter<,>));
+        }
+    }
+    public class PagedListConverter<TSource, TDestination> : ITypeConverter<PagedList<TSource>, PagedList<TDestination>>
+    {
+        public PagedList<TDestination> Convert(PagedList<TSource> source, PagedList<TDestination> destination, ResolutionContext context)
+        {
+            var mappedItems = context.Mapper.Map<List<TDestination>>(source);
+            return new PagedList<TDestination>(mappedItems, source.TotalCount, source.CurrentPage, source.PageSize);
         }
     }
 }

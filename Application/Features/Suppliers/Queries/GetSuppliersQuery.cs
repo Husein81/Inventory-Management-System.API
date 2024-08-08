@@ -1,13 +1,14 @@
 ﻿using Application.Repository;
 using Domain.Entities;
 using MediatR;
+using Shared;
 using Shared.Response;
 
 namespace Application.Features.Suppliers.Queries
 {
-    public record GetSuppliersQuery : IRequest<Response<List<Supplier>>>;
+    public record GetSuppliersQuery(int Page, int PageSize) : IRequest<Response<PagedList<Supplier>>>;
 
-    public class GetSuppliersQueryHandler : IRequestHandler<GetSuppliersQuery, Response<List<Supplier>>>
+    public class GetSuppliersQueryHandler : IRequestHandler<GetSuppliersQuery, Response<PagedList<Supplier>>>
     {
         private readonly ISupplierRepository _supplierRepository;
         public GetSuppliersQueryHandler(ISupplierRepository supplierRepository)
@@ -15,9 +16,9 @@ namespace Application.Features.Suppliers.Queries
             _supplierRepository = supplierRepository;
         }
 
-        public async Task<Response<List<Supplier>>> Handle(GetSuppliersQuery request, CancellationToken cancellationToken)
+        public async Task<Response<PagedList<Supplier>>> Handle(GetSuppliersQuery request, CancellationToken cancellationToken)
         {
-            return await _supplierRepository.GetSuppliers();
+            return await _supplierRepository.GetSuppliers(request.Page, request.PageSize);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using API.Extensions;
 using API.UserRequests;
 using Domain.Entities;
+using Infrastructure.Email;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -19,17 +20,27 @@ namespace API.Controllers
         private readonly TokenServices _tokenServices;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IConfiguration _configuration;
+        private readonly EmailSender _emailSender;
         public AccountController(UserManager<AppUser> userManager, 
             SignInManager<AppUser> signInManager, 
             TokenServices tokenServices, 
+            EmailSender emailSender,
             IConfiguration configuration)
         {
             _signInManager = signInManager;
             _configuration = configuration;
+            _emailSender = emailSender;
             _userManager = userManager;
             _tokenServices = tokenServices;
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await _userManager.Users.ToArrayAsync();
+            return Ok(users);
+        }
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult<UserRequest>> Login([FromBody] LoginRequest request)
@@ -63,7 +74,8 @@ namespace API.Controllers
                 return u;
             }
             return Unauthorized("Invalid Email or Password");
-        } 
+        }
+
 
         [AllowAnonymous]
         [HttpPost("register")]
@@ -72,13 +84,13 @@ namespace API.Controllers
             if (await _userManager.Users.AnyAsync(x => x.Email == request.Email))
             {
                 ModelState.AddModelError("email", "Email taken");
-                return ValidationProblem();
+                return ValidationProblem(ModelState);
             }
 
             if (await _userManager.Users.AnyAsync(x => x.UserName == request.Username))
             {
                 ModelState.AddModelError("username", "Username taken");
-                return ValidationProblem();
+                return ValidationProblem(ModelState);
             }
 
             var user = new AppUser
@@ -90,33 +102,73 @@ namespace API.Controllers
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
-
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                return new UserRequest
+                foreach (var error in result.Errors)
                 {
-                    DisplayName = user.DisplayName,
-                    Token = _tokenServices.CreateToken(user),
-                    Username = user.UserName,
-                    ImageUrl = null,
-                };
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
+                return ValidationProblem(ModelState);
             }
 
-            return BadRequest(result.Errors);
+            var origin = Request.Headers["origin"];
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            var verifyUrl = $"{origin}/account/verifyEmail?token={token}&email={user.Email}";
+            var message = $"<p>Please Click the Below Link to Verify Your Email Address: </p><p><a href='{verifyUrl}'>Click To Verify Email</a></p>";
+            await _emailSender.SendEmailAsync(user.Email, "Please Verify Email", message);
+
+            return Ok(new { message = "Registration Success - Please Verify Email" });
         }
+
         [AllowAnonymous]
         [HttpPost("verifyEmail")]
         public async Task<IActionResult> VerifyEmail(string token, string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            if (user is null)
+            if (user == null)
+            {
                 return Unauthorized();
+            }
+
             var decodedTokenBytes = WebEncoders.Base64UrlDecode(token);
             var decodedToken = Encoding.UTF8.GetString(decodedTokenBytes);
             var result = await _userManager.ConfirmEmailAsync(user, decodedToken);
+
             if (!result.Succeeded)
+            {
                 return BadRequest("Could not Verify Email Address");
+            }
+
             return Ok("Email confirmed - you can now login");
         }
+        [AllowAnonymous]
+        [HttpGet("resendEmailConfirmationLink")]
+        public async Task<IActionResult> ResendEmailConfirmationLink(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user is null)
+                return Unauthorized();
+            var origin = Request.Headers["origin"];
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token)); // since the token will be sent in an html in the email, it needs to be encoded so that it doesn't get corrupted
+            var verifyUrl = $"{origin}/account/verifyEmail?token={token}&email={user.Email}";
+            var message = $"<p>Please Click the Below Link to Verify Your Email Address: </p><p><a href='{verifyUrl}'>Click To Verify Email</a></p>";
+            await _emailSender.SendEmailAsync(user.Email, "Please Verify Email", message);
+            return Ok("Email Verification Link Resent");
+        }
+        [AllowAnonymous]
+        [HttpPost("DeleteAccount")]
+        public async Task<IActionResult> DeleteAccount(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user is null)
+                return Unauthorized();
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+                return BadRequest("Failed to delete account");
+            return Ok("Account Deleted");
+        }
+        
     }
 }
