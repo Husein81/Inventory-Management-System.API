@@ -100,5 +100,61 @@ namespace Infrastructure.Repository
             return result ? Response<Order>.Success(order) 
                 : Response<Order>.Fail("Failed to update order");
         }
+
+        public async Task<Response<Order>> UpdateOrderStatus(Guid id, Order status)
+        {
+            var order = await _context.Orders
+                .Include(x => x.Customer)
+                .Include(x => x.OrderItems).FirstOrDefaultAsync(x => x.Id == id);
+            if (order is null)
+            {
+                return Response<Order>.Fail($"Order with id:{id} not found");
+            }
+
+            order.OrderStatus = status.OrderStatus;
+            var result = await _context.SaveChangesAsync() > 0;
+
+            return result ? Response<Order>.Success(order) 
+                : Response<Order>.Fail("Failed to update order status");
+        }
+
+        public async Task<Response<Order>> UpdateOrderPayment(Guid id, Order payment)
+        {
+            var order = await _context.Orders
+              .Include(x => x.Customer)
+              .Include(x => x.OrderItems).FirstOrDefaultAsync(x => x.Id == id);
+            if (order is null)
+            {
+                return Response<Order>.Fail($"Order with id:{id} not found");
+            }
+
+            order.Payment = payment.Payment;
+            order.UpdatedAt = DateTime.Now;
+
+            var result = await _context.SaveChangesAsync() > 0;
+
+            return result ? Response<Order>.Success(order)
+                : Response<Order>.Fail("Failed to update order status");
+        }
+        public async Task<Response<PagedList<OrderDto>>> GetCompletedOrders(int page, int pageSize, string searchTerm)
+        {
+            var orders = _context.Orders
+                .Where(x => x.OrderStatus.Contains("completed"))
+                .Include(x => x.Customer)
+                .Include(x => x.OrderItems)
+                .ThenInclude(o => o.Product)
+                .OrderByDescending(x => x.CreatedAt)
+                .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
+                .AsQueryable();
+
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = searchTerm.ToLower();
+                orders = orders.Where(x => x.Customer.Name.ToLower().Contains(searchTerm));
+            }
+            return Response<PagedList<OrderDto>>.Success(
+                await PagedList<OrderDto>.ToPagedList(orders, page, pageSize));
+        }
     }
 }

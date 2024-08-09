@@ -8,6 +8,7 @@ namespace Application.Requests
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
         public string OrderStatus { get; set; }
+        public decimal Payment { get; set; }
         public string ShippingAddress { get; set; }
         public decimal ItemsPrice { get; set; }
         public decimal Discount { get; set; }

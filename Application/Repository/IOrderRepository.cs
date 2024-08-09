@@ -13,5 +13,8 @@ namespace Application.Repository
         Task<Response<Order>> CreateOrder(Order request);
         Task<Response<Order>> UpdateOrder(Guid Id,Order request);
         Task<Response<Unit>> DeleteOrder(Guid id);
+        Task<Response<Order>> UpdateOrderStatus(Guid id, Order order);
+        Task<Response<Order>> UpdateOrderPayment(Guid id, Order order);
+        Task<Response<PagedList<OrderDto>>> GetCompletedOrders(int page, int pageSize, string searchTerm);
     }
 }

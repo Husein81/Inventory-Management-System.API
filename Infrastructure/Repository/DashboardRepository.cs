@@ -65,6 +65,7 @@ namespace Infrastructure.Repository
             var data = new List<GraphDataSeries>();
 
             var orders = await _context.Orders
+                .Where(x => x.OrderStatus.Contains("completed"))
                 .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Product)
                 .ToListAsync();
@@ -121,6 +122,7 @@ namespace Infrastructure.Repository
             var data = new List<GraphDataSeries>();
 
             var orders = await _context.Orders
+                .Where(x => x.OrderStatus.Contains("completed"))
                 .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Product)
                 .ToListAsync();
@@ -148,7 +150,7 @@ namespace Infrastructure.Repository
             {
                 var revenueSeries = new GraphDataSeries
                 {
-                    Id = $"Revenue (Week {weekGroup.Key.ToString("MM/dd/yyyy")})",
+                    Id = $"Revenue ",
                     Data = weekGroup.OrderBy(g => g.Day).Select(g => new GraphDataPoint
                     {
                         X = g.Day.ToString("MM/dd"),
@@ -158,7 +160,7 @@ namespace Infrastructure.Repository
 
                 var costsSeries = new GraphDataSeries
                 {
-                    Id = $"Costs (Week {weekGroup.Key.ToString("MM/dd/yyyy")})",
+                    Id = $"Costs ",
                     Data = weekGroup.OrderBy(g => g.Day).Select(g => new GraphDataPoint
                     {
                         X = g.Day.ToString("MM/dd"),
@@ -168,7 +170,7 @@ namespace Infrastructure.Repository
 
                 var profitsSeries = new GraphDataSeries
                 {
-                    Id = $"Profits (Week {weekGroup.Key.ToString("MM/dd/yyyy")})",
+                    Id = $"Profits ",
                     Data = weekGroup.OrderBy(g => g.Day).Select(g => new GraphDataPoint
                     {
                         X = g.Day.ToString("MM/dd"),

@@ -29,6 +29,9 @@ namespace Application.Core
             CreateMap<Order, OrderDto>();
             CreateMap<Customer, CustomerDto>();
 
+            CreateMap<UpdateOrderStatusDto, Order>();
+            CreateMap<UpdateOrderPaymentDto, Order>();
+
             CreateMap(typeof(PagedList<>), typeof(PagedList<>))
             .ConvertUsing(typeof(PagedListConverter<,>));
         }

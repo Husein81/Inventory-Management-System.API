@@ -34,7 +34,7 @@ if (app.Environment.IsDevelopment())
 
 
 
-app.UseCors("CorPolicy");
+app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();
 

@@ -50,12 +50,12 @@ namespace API.Extensions
 
             services.AddCors(opt =>
             {
-                opt.AddPolicy("CorPolicy", policy =>
+                opt.AddPolicy("CorsPolicy", policy =>
                 {
                     policy
                     .AllowAnyHeader()
                     .AllowAnyMethod()
-                    .WithOrigins("https://localhost:7178","http://localhost:5055");
+                    .WithOrigins("http://localhost:5173", "https://localhost:5173");
                 });
             });
             services.AddDbContext<AppDbContext>(options =>

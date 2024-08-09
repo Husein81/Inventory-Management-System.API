@@ -13,7 +13,9 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<PagedList<Order>>> GetOrders(int page, int pageSize, string searchTerm, CancellationToken cancellationToken)
             => HandlePagedResult(await Mediator.Send(new GetOrdersQuery(page, pageSize, searchTerm),cancellationToken));
-
+        [HttpGet("CompletedOrders")]
+        public async Task<ActionResult<PagedList<Order>>> GetCompletedOrders(int page, int pageSize, string searchTerm, CancellationToken cancellationToken)
+            => HandlePagedResult(await Mediator.Send(new GetCompletedOrdersQuery(page, pageSize, searchTerm),cancellationToken));
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrder(Guid id)
             => HandleResult(await Mediator.Send(new GetOrderQuery(id)));
@@ -29,6 +31,11 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(Guid id)
             => HandleResult(await Mediator.Send(new DeleteOrderCommand(id)));
-
+        [HttpPut("{id}/status")]
+        public async Task<IActionResult> UpdateOrderStatus(Guid id, [FromBody] UpdateOrderStatusDto status)
+            => HandleResult(await Mediator.Send(new UpdateOrderStatusCommand(id, status)));
+        [HttpPut("{id}/payment")]
+        public async Task<IActionResult> UpdateOrderPayment(Guid id, [FromBody] UpdateOrderPaymentDto payment)
+            => HandleResult(await Mediator.Send(new UpdateOrderPaymentCommand(id, payment)));
     }
 }
