@@ -11,5 +11,6 @@ namespace Application.Repository{
         Task<Response<Supplier>> CreateSupplier(Supplier request);
         Task<Response<Supplier>> UpdateSupplier(Guid Id,Supplier request);
         Task<Response<Unit>> DeleteSupplier(Guid id);
+        Task<Response<PagedList<Product>>> GetSupplierProducts(Guid id, int page, int pageSize);
     }
 }

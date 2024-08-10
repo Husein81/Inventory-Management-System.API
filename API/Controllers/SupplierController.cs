@@ -28,6 +28,8 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSupplier(Guid id)
             => HandleResult(await Mediator.Send(new DeleteSupplierCommand(id)));
-
+        [HttpGet("{id}/products")]
+        public async Task<ActionResult<PagedList<Product>>> GetSupplierProducts(Guid id, int page, int pageSize)
+            => HandlePagedResult(await Mediator.Send(new GetSupplierProductsQuery(id, page, pageSize)));
     }
 }

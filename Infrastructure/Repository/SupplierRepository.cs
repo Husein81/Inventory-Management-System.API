@@ -65,5 +65,17 @@ namespace Infrastructure.Repository
             return Task.FromResult(result ? Response<Supplier>.Success(supplier)
                 : Response<Supplier>.Fail("Failed to update supplier"));
         }
+
+        public async Task<Response<PagedList<Product>>> GetSupplierProducts(Guid id, int page, int pageSize)
+        {
+            var products = _context.Products
+                .Include(p => p.Supplier)
+                .Include(p => p.Category)
+                .Where(p => p.SupplierId == id)
+                .AsQueryable();
+
+            return Response<PagedList<Product>>.Success(
+                await PagedList<Product>.ToPagedList(products, page, pageSize));
+        }
     }
 }
