@@ -14,14 +14,6 @@ namespace API.Controllers
         {
             _dashboardRepository = dashboardRepository;
         }
-
-        [AllowAnonymous]
-        [HttpGet("InventoryTotal")]
-        public async Task<IActionResult> GetInventoryTotal()
-        {
-            var total = await _dashboardRepository.GetTotalInventoryValueAsync();
-            return Ok(total);
-        }
         [AllowAnonymous]
         [HttpGet("TopSellingProducts")] 
         public async Task<IActionResult> GetTopSellingProducts()
@@ -36,14 +28,6 @@ namespace API.Controllers
             var products = await _dashboardRepository.GetLowStockItemsAsync();
             return Ok(products);
         }
-        [AllowAnonymous]
-        [HttpGet("MonthlySalesTrends")]
-        public async Task<IActionResult> GetMonthlySalesTrends()
-        {
-            var salesTrends = await _dashboardRepository.GetMonthlySalesTrendsAsync();
-            return Ok(salesTrends);
-        }
-
         [AllowAnonymous]
         [HttpGet("RevenueProfitCost")]
         public async Task<IActionResult> GetRevenueProfitCost()

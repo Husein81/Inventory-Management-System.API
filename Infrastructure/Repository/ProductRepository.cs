@@ -89,6 +89,18 @@ namespace Infrastructure.Repository
                 : Response<Product>.Fail("Failed to update product");
         }
 
+        public async Task<Response<PagedList<Product>>> GetProductsByCategory(Guid categoryId, int page, int pageSize)
+        {
+            var products = _context.Products
+                .Include(p => p.Supplier)
+                .Include(p => p.Category)
+                .Where(p => p.CategoryId == categoryId)
+                .OrderByDescending(x => x.CreatedAt)
+                .AsQueryable();
+
+            return Response<PagedList<Product>>.Success(
+                await PagedList<Product>.ToPagedList(products, page, pageSize));
+        }
 
     }
 }

@@ -33,5 +33,10 @@ namespace API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(Guid id)
             => HandleResult(await Mediator.Send(new DeleteProductCommand(id)));
+
+        [HttpGet("category/{categoryId}")]
+        public async Task<ActionResult<PagedList<Product>>> 
+            GetProductsByCategory(Guid categoryId, int page, int pageSize)
+            => HandlePagedResult(await Mediator.Send(new GetProductsByCategoryQuery(categoryId, page, pageSize)));
     }
 }

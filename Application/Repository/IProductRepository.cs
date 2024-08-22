@@ -12,5 +12,6 @@ namespace Application.Repository
         Task<Response<Product>> CreateProduct(Product product);
         Task<Response<Product>> UpdateProduct(Guid Id, Product product);
         Task<Response<Unit>> DeleteProduct(Guid id);
+        Task<Response<PagedList<Product>>> GetProductsByCategory(Guid categoryId, int page, int pageSize);
     }
 }

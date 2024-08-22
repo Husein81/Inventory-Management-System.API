@@ -27,19 +27,7 @@ namespace Infrastructure.Repository
         }
 
 
-        public async Task<List<SalesTrendDto>> GetMonthlySalesTrendsAsync()
-        {
-            return await _context.Orders.GroupBy(o => new { o.CreatedAt.Year, o.CreatedAt.Month })
-                .OrderBy(g => g.Key.Year)
-                .ThenBy(g => g.Key.Month)
-                .Select(g => new SalesTrendDto
-                {
-                    Year = g.Key.Year.ToString(),
-                    Month = g.Key.Month.ToString(),
-                    Sales = g.Sum(o => o.OrderItems.Sum(oi => (double)(oi.Qty * (double)oi.Price - ((double)oi.Discount *(double) (oi.Qty * (double)oi.Price)/100))))
-                }).ToListAsync();
-        }
-
+ 
         public async Task<List<ProductDto>> GetTopSellingProductsAsync()
         {
             return await _context.Orders
@@ -55,10 +43,6 @@ namespace Infrastructure.Repository
               .ToListAsync();
         }
 
-        public async Task<double> GetTotalInventoryValueAsync()
-        {
-           return await _context.Products.Select(p => (double)(p.Price * (decimal)p.Quantity)).SumAsync();
-        }
 
         public async Task<List<GraphDataSeries>> GetRevenueProfitCost()
         {
@@ -133,6 +117,7 @@ namespace Infrastructure.Repository
 
             return data;
         }
+
         public async Task<List<GraphDataSeries>> GetDailyRevenueProfitCostForWeeks()
         {
             var data = new List<GraphDataSeries>();
